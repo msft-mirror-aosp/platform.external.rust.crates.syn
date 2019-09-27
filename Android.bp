@@ -1,5 +1,6 @@
 rust_library_rlib {
     name: "libsyn",
+    deny_warnings: false,
     crate_name: "syn",
     edition: "2015",
     srcs: ["src/lib.rs"],
