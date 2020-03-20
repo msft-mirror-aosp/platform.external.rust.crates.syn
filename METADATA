@@ -1,8 +1,5 @@
 name: "syn"
-description:
-    "Syn is a parsing library for parsing a stream of Rust tokens into a syntax "
-    "tree of Rust source code."
-
+description: "Syn is a parsing library for parsing a stream of Rust tokens into a syntax tree of Rust source code."
 third_party {
   url {
     type: HOMEPAGE
@@ -12,6 +9,10 @@ third_party {
     type: GIT
     value: "https://github.com/dtolnay/syn"
   }
-  version: "1.0.7"
-  last_upgrade_date { year: 2020 month: 3 day: 5 }
+  version: "1.0.16"
+  last_upgrade_date {
+    year: 2020
+    month: 3
+    day: 20
+  }
 }
