@@ -1,6 +1,6 @@
 [package]
 name = "syn"
-version = "1.0.16" # don't forget to update html_root_url and syn.json
+version = "1.0.17" # don't forget to update html_root_url and syn.json
 authors = ["David Tolnay <dtolnay@gmail.com>"]
 license = "MIT OR Apache-2.0"
 description = "Parser for Rust source code"
@@ -61,6 +61,7 @@ required-features = ["full", "parsing"]
 
 [package.metadata.docs.rs]
 all-features = true
+targets = ["x86_64-unknown-linux-gnu"]
 
 [package.metadata.playground]
 all-features = true
