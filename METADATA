@@ -9,10 +9,10 @@ third_party {
     type: GIT
     value: "https://github.com/dtolnay/syn"
   }
-  version: "1.0.17"
+  version: "1.0.18"
   last_upgrade_date {
     year: 2020
     month: 4
-    day: 16
+    day: 23
   }
 }
