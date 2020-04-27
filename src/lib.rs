@@ -242,7 +242,7 @@
 //!   dynamic library libproc_macro from rustc toolchain.
 
 // Syn types in rustdoc of other crates get linked to here.
-#![doc(html_root_url = "https://docs.rs/syn/1.0.16")]
+#![doc(html_root_url = "https://docs.rs/syn/1.0.18")]
 #![deny(clippy::all, clippy::pedantic)]
 // Ignored clippy lints.
 #![allow(
@@ -275,7 +275,8 @@
     clippy::too_many_lines,
     clippy::unseparated_literal_suffix,
     clippy::use_self,
-    clippy::used_underscore_binding
+    clippy::used_underscore_binding,
+    clippy::wildcard_imports
 )]
 
 #[cfg(all(
@@ -289,7 +290,6 @@ extern crate unicode_xid;
 #[cfg(feature = "printing")]
 extern crate quote;
 
-#[cfg(any(feature = "full", feature = "derive"))]
 #[macro_use]
 mod macros;
 
@@ -312,7 +312,6 @@ pub use crate::attr::{
     AttrStyle, Attribute, AttributeArgs, Meta, MetaList, MetaNameValue, NestedMeta,
 };
 
-#[cfg(any(feature = "full", feature = "derive"))]
 mod bigint;
 
 #[cfg(any(feature = "full", feature = "derive"))]
@@ -369,9 +368,7 @@ pub use crate::file::File;
 mod lifetime;
 pub use crate::lifetime::Lifetime;
 
-#[cfg(any(feature = "full", feature = "derive"))]
 mod lit;
-#[cfg(any(feature = "full", feature = "derive"))]
 pub use crate::lit::{
     Lit, LitBool, LitByte, LitByteStr, LitChar, LitFloat, LitInt, LitStr, StrStyle,
 };
