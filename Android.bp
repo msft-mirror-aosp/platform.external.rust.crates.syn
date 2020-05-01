@@ -26,6 +26,7 @@ rust_library_host_rlib {
         "libquote",
         "libunicode_xid",
     ],
+    compile_multilib: "first", // added
 }
 
 // dependent_library ["feature_list"]
