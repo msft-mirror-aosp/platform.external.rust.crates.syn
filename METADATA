@@ -9,7 +9,7 @@ third_party {
     type: GIT
     value: "https://github.com/dtolnay/syn"
   }
-  version: "1.0.20"
+  version: "1.0.21"
   license_type: NOTICE
   last_upgrade_date {
     year: 2020
