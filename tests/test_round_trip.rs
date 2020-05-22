@@ -9,8 +9,6 @@ extern crate rustc_parse as parse;
 extern crate rustc_session;
 extern crate rustc_span;
 
-mod features;
-
 use quote::quote;
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
 use rustc_ast::ast;
@@ -40,6 +38,7 @@ use common::eq::SpanlessEq;
 
 #[test]
 fn test_round_trip() {
+    common::rayon_init();
     repo::clone_rust();
     let abort_after = common::abort_after();
     if abort_after == 0 {
