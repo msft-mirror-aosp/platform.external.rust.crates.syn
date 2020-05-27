@@ -250,11 +250,11 @@
 //!   dynamic library libproc_macro from rustc toolchain.
 
 // Syn types in rustdoc of other crates get linked to here.
-#![doc(html_root_url = "https://docs.rs/syn/1.0.22")]
+#![doc(html_root_url = "https://docs.rs/syn/1.0.27")]
 #![deny(clippy::all, clippy::pedantic)]
 // Ignored clippy lints.
 #![allow(
-    clippy::block_in_if_condition_stmt,
+    clippy::blocks_in_if_conditions,
     clippy::cognitive_complexity,
     clippy::doc_markdown,
     clippy::eval_order_dependence,
@@ -267,7 +267,8 @@
     clippy::never_loop,
     clippy::suspicious_op_assign_impl,
     clippy::too_many_arguments,
-    clippy::trivially_copy_pass_by_ref
+    clippy::trivially_copy_pass_by_ref,
+    clippy::unnecessary_unwrap
 )]
 // Ignored clippy_pedantic lints.
 #![allow(
@@ -494,7 +495,7 @@ mod gen {
     /// /* ... */
     /// ```
     ///
-    /// *This module is available if Syn is built with the `"visit"` feature.*
+    /// *This module is available only if Syn is built with the `"visit"` feature.*
     ///
     /// <br>
     ///
@@ -615,7 +616,7 @@ mod gen {
     /// /* ... */
     /// ```
     ///
-    /// *This module is available if Syn is built with the `"visit-mut"`
+    /// *This module is available only if Syn is built with the `"visit-mut"`
     /// feature.*
     ///
     /// <br>
@@ -714,7 +715,7 @@ mod gen {
     /// /* ... */
     /// ```
     ///
-    /// *This module is available if Syn is built with the `"fold"` feature.*
+    /// *This module is available only if Syn is built with the `"fold"` feature.*
     ///
     /// <br>
     ///
@@ -778,7 +779,7 @@ mod lookahead;
 #[cfg(feature = "parsing")]
 pub mod parse;
 
-#[cfg(all(feature = "parsing", feature = "full"))]
+#[cfg(all(any(feature = "full", feature = "derive"), feature = "parsing"))]
 mod verbatim;
 
 #[cfg(all(any(feature = "full", feature = "derive"), feature = "printing"))]
@@ -813,7 +814,7 @@ pub use crate::error::{Error, Result};
 ///
 /// [`syn::parse2`]: parse2
 ///
-/// *This function is available if Syn is built with both the `"parsing"` and
+/// *This function is available only if Syn is built with both the `"parsing"` and
 /// `"proc-macro"` features.*
 ///
 /// # Examples
@@ -860,7 +861,7 @@ pub fn parse<T: parse::Parse>(tokens: proc_macro::TokenStream) -> Result<T> {
 ///
 /// [`syn::parse`]: parse()
 ///
-/// *This function is available if Syn is built with the `"parsing"` feature.*
+/// *This function is available only if Syn is built with the `"parsing"` feature.*
 #[cfg(feature = "parsing")]
 pub fn parse2<T: parse::Parse>(tokens: proc_macro2::TokenStream) -> Result<T> {
     parse::Parser::parse2(T::parse, tokens)
@@ -868,7 +869,7 @@ pub fn parse2<T: parse::Parse>(tokens: proc_macro2::TokenStream) -> Result<T> {
 
 /// Parse a string of Rust code into the chosen syntax tree node.
 ///
-/// *This function is available if Syn is built with the `"parsing"` feature.*
+/// *This function is available only if Syn is built with the `"parsing"` feature.*
 ///
 /// # Hygiene
 ///
@@ -905,7 +906,7 @@ pub fn parse_str<T: parse::Parse>(s: &str) -> Result<T> {
 ///
 /// If present, either of these would be an error using `from_str`.
 ///
-/// *This function is available if Syn is built with the `"parsing"` and
+/// *This function is available only if Syn is built with the `"parsing"` and
 /// `"full"` features.*
 ///
 /// # Examples
