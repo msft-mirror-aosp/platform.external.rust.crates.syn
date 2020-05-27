@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 
+use rayon::ThreadPoolBuilder;
 use std::env;
 
 pub mod eq;
@@ -13,7 +14,10 @@ pub fn abort_after() -> usize {
     }
 }
 
-/// Are we running in travis-ci.org.
-pub fn travis_ci() -> bool {
-    env::var_os("TRAVIS").is_some()
+/// Configure Rayon threadpool.
+pub fn rayon_init() {
+    ThreadPoolBuilder::new()
+        .stack_size(10 * 1024 * 1024)
+        .build_global()
+        .unwrap();
 }
