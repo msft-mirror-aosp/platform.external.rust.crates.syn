@@ -14,7 +14,7 @@ use std::mem;
 ast_enum_of_structs! {
     /// A Rust expression.
     ///
-    /// *This type is available if Syn is built with the `"derive"` or `"full"`
+    /// *This type is available only if Syn is built with the `"derive"` or `"full"`
     /// feature, but most of the variants are not available unless "full" is enabled.*
     ///
     /// # Syntax tree enums
@@ -231,7 +231,7 @@ ast_enum_of_structs! {
 ast_struct! {
     /// A slice literal expression: `[a, b, c, d]`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprArray #full {
         pub attrs: Vec<Attribute>,
         pub bracket_token: token::Bracket,
@@ -242,7 +242,7 @@ ast_struct! {
 ast_struct! {
     /// An assignment expression: `a = compute()`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprAssign #full {
         pub attrs: Vec<Attribute>,
         pub left: Box<Expr>,
@@ -254,7 +254,7 @@ ast_struct! {
 ast_struct! {
     /// A compound assignment expression: `counter += 1`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprAssignOp #full {
         pub attrs: Vec<Attribute>,
         pub left: Box<Expr>,
@@ -266,7 +266,7 @@ ast_struct! {
 ast_struct! {
     /// An async block: `async { ... }`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprAsync #full {
         pub attrs: Vec<Attribute>,
         pub async_token: Token![async],
@@ -278,7 +278,7 @@ ast_struct! {
 ast_struct! {
     /// An await expression: `fut.await`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprAwait #full {
         pub attrs: Vec<Attribute>,
         pub base: Box<Expr>,
@@ -290,7 +290,7 @@ ast_struct! {
 ast_struct! {
     /// A binary operation: `a + b`, `a * b`.
     ///
-    /// *This type is available if Syn is built with the `"derive"` or
+    /// *This type is available only if Syn is built with the `"derive"` or
     /// `"full"` feature.*
     pub struct ExprBinary {
         pub attrs: Vec<Attribute>,
@@ -303,7 +303,7 @@ ast_struct! {
 ast_struct! {
     /// A blocked scope: `{ ... }`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprBlock #full {
         pub attrs: Vec<Attribute>,
         pub label: Option<Label>,
@@ -314,7 +314,7 @@ ast_struct! {
 ast_struct! {
     /// A box expression: `box f`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprBox #full {
         pub attrs: Vec<Attribute>,
         pub box_token: Token![box],
@@ -326,7 +326,7 @@ ast_struct! {
     /// A `break`, with an optional label to break and an optional
     /// expression.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprBreak #full {
         pub attrs: Vec<Attribute>,
         pub break_token: Token![break],
@@ -338,7 +338,7 @@ ast_struct! {
 ast_struct! {
     /// A function call expression: `invoke(a, b)`.
     ///
-    /// *This type is available if Syn is built with the `"derive"` or
+    /// *This type is available only if Syn is built with the `"derive"` or
     /// `"full"` feature.*
     pub struct ExprCall {
         pub attrs: Vec<Attribute>,
@@ -351,7 +351,7 @@ ast_struct! {
 ast_struct! {
     /// A cast expression: `foo as f64`.
     ///
-    /// *This type is available if Syn is built with the `"derive"` or
+    /// *This type is available only if Syn is built with the `"derive"` or
     /// `"full"` feature.*
     pub struct ExprCast {
         pub attrs: Vec<Attribute>,
@@ -364,7 +364,7 @@ ast_struct! {
 ast_struct! {
     /// A closure expression: `|a, b| a + b`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprClosure #full {
         pub attrs: Vec<Attribute>,
         pub asyncness: Option<Token![async]>,
@@ -381,7 +381,7 @@ ast_struct! {
 ast_struct! {
     /// A `continue`, with an optional label.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprContinue #full {
         pub attrs: Vec<Attribute>,
         pub continue_token: Token![continue],
@@ -393,7 +393,7 @@ ast_struct! {
     /// Access of a named struct field (`obj.k`) or unnamed tuple struct
     /// field (`obj.0`).
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprField {
         pub attrs: Vec<Attribute>,
         pub base: Box<Expr>,
@@ -405,7 +405,7 @@ ast_struct! {
 ast_struct! {
     /// A for loop: `for pat in expr { ... }`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprForLoop #full {
         pub attrs: Vec<Attribute>,
         pub label: Option<Label>,
@@ -424,7 +424,7 @@ ast_struct! {
     /// of expressions and is related to `None`-delimited spans in a
     /// `TokenStream`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprGroup #full {
         pub attrs: Vec<Attribute>,
         pub group_token: token::Group,
@@ -439,7 +439,7 @@ ast_struct! {
     /// The `else` branch expression may only be an `If` or `Block`
     /// expression, not any of the other types of expression.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprIf #full {
         pub attrs: Vec<Attribute>,
         pub if_token: Token![if],
@@ -452,7 +452,7 @@ ast_struct! {
 ast_struct! {
     /// A square bracketed indexing expression: `vector[2]`.
     ///
-    /// *This type is available if Syn is built with the `"derive"` or
+    /// *This type is available only if Syn is built with the `"derive"` or
     /// `"full"` feature.*
     pub struct ExprIndex {
         pub attrs: Vec<Attribute>,
@@ -465,7 +465,7 @@ ast_struct! {
 ast_struct! {
     /// A `let` guard: `let Some(x) = opt`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprLet #full {
         pub attrs: Vec<Attribute>,
         pub let_token: Token![let],
@@ -478,7 +478,7 @@ ast_struct! {
 ast_struct! {
     /// A literal in place of an expression: `1`, `"foo"`.
     ///
-    /// *This type is available if Syn is built with the `"derive"` or
+    /// *This type is available only if Syn is built with the `"derive"` or
     /// `"full"` feature.*
     pub struct ExprLit {
         pub attrs: Vec<Attribute>,
@@ -489,7 +489,7 @@ ast_struct! {
 ast_struct! {
     /// Conditionless loop: `loop { ... }`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprLoop #full {
         pub attrs: Vec<Attribute>,
         pub label: Option<Label>,
@@ -501,7 +501,7 @@ ast_struct! {
 ast_struct! {
     /// A macro invocation expression: `format!("{}", q)`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprMacro #full {
         pub attrs: Vec<Attribute>,
         pub mac: Macro,
@@ -511,7 +511,7 @@ ast_struct! {
 ast_struct! {
     /// A `match` expression: `match n { Some(n) => {}, None => {} }`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprMatch #full {
         pub attrs: Vec<Attribute>,
         pub match_token: Token![match],
@@ -524,7 +524,7 @@ ast_struct! {
 ast_struct! {
     /// A method call expression: `x.foo::<T>(a, b)`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprMethodCall #full {
         pub attrs: Vec<Attribute>,
         pub receiver: Box<Expr>,
@@ -539,7 +539,7 @@ ast_struct! {
 ast_struct! {
     /// A parenthesized expression: `(a + b)`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprParen {
         pub attrs: Vec<Attribute>,
         pub paren_token: token::Paren,
@@ -553,7 +553,7 @@ ast_struct! {
     ///
     /// A plain identifier like `x` is a path of length 1.
     ///
-    /// *This type is available if Syn is built with the `"derive"` or
+    /// *This type is available only if Syn is built with the `"derive"` or
     /// `"full"` feature.*
     pub struct ExprPath {
         pub attrs: Vec<Attribute>,
@@ -565,7 +565,7 @@ ast_struct! {
 ast_struct! {
     /// A range expression: `1..2`, `1..`, `..2`, `1..=2`, `..=2`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprRange #full {
         pub attrs: Vec<Attribute>,
         pub from: Option<Box<Expr>>,
@@ -577,7 +577,7 @@ ast_struct! {
 ast_struct! {
     /// A referencing operation: `&a` or `&mut a`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprReference #full {
         pub attrs: Vec<Attribute>,
         pub and_token: Token![&],
@@ -590,7 +590,7 @@ ast_struct! {
 ast_struct! {
     /// An array literal constructed from one repeated element: `[0u8; N]`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprRepeat #full {
         pub attrs: Vec<Attribute>,
         pub bracket_token: token::Bracket,
@@ -603,7 +603,7 @@ ast_struct! {
 ast_struct! {
     /// A `return`, with an optional value to be returned.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprReturn #full {
         pub attrs: Vec<Attribute>,
         pub return_token: Token![return],
@@ -617,7 +617,7 @@ ast_struct! {
     /// The `rest` provides the value of the remaining fields as in `S { a:
     /// 1, b: 1, ..rest }`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprStruct #full {
         pub attrs: Vec<Attribute>,
         pub path: Path,
@@ -631,7 +631,7 @@ ast_struct! {
 ast_struct! {
     /// A try-expression: `expr?`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprTry #full {
         pub attrs: Vec<Attribute>,
         pub expr: Box<Expr>,
@@ -642,7 +642,7 @@ ast_struct! {
 ast_struct! {
     /// A try block: `try { ... }`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprTryBlock #full {
         pub attrs: Vec<Attribute>,
         pub try_token: Token![try],
@@ -653,7 +653,7 @@ ast_struct! {
 ast_struct! {
     /// A tuple expression: `(a, b, c, d)`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprTuple #full {
         pub attrs: Vec<Attribute>,
         pub paren_token: token::Paren,
@@ -664,7 +664,7 @@ ast_struct! {
 ast_struct! {
     /// A type ascription expression: `foo: f64`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprType #full {
         pub attrs: Vec<Attribute>,
         pub expr: Box<Expr>,
@@ -676,7 +676,7 @@ ast_struct! {
 ast_struct! {
     /// A unary operation: `!x`, `*x`.
     ///
-    /// *This type is available if Syn is built with the `"derive"` or
+    /// *This type is available only if Syn is built with the `"derive"` or
     /// `"full"` feature.*
     pub struct ExprUnary {
         pub attrs: Vec<Attribute>,
@@ -688,7 +688,7 @@ ast_struct! {
 ast_struct! {
     /// An unsafe block: `unsafe { ... }`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprUnsafe #full {
         pub attrs: Vec<Attribute>,
         pub unsafe_token: Token![unsafe],
@@ -699,7 +699,7 @@ ast_struct! {
 ast_struct! {
     /// A while loop: `while expr { ... }`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprWhile #full {
         pub attrs: Vec<Attribute>,
         pub label: Option<Label>,
@@ -712,7 +712,7 @@ ast_struct! {
 ast_struct! {
     /// A yield expression: `yield expr`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct ExprYield #full {
         pub attrs: Vec<Attribute>,
         pub yield_token: Token![yield],
@@ -999,7 +999,7 @@ ast_enum! {
     /// A struct or tuple struct field accessed in a struct literal or field
     /// expression.
     ///
-    /// *This type is available if Syn is built with the `"derive"` or `"full"`
+    /// *This type is available only if Syn is built with the `"derive"` or `"full"`
     /// feature.*
     #[derive(Eq, PartialEq, Hash)]
     pub enum Member #manual_extra_traits {
@@ -1030,7 +1030,7 @@ impl IdentFragment for Member {
 ast_struct! {
     /// The index of an unnamed tuple struct field.
     ///
-    /// *This type is available if Syn is built with the `"derive"` or `"full"`
+    /// *This type is available only if Syn is built with the `"derive"` or `"full"`
     /// feature.*
     pub struct Index #manual_extra_traits {
         pub index: u32,
@@ -1086,7 +1086,7 @@ ast_struct! {
     /// The `::<>` explicit type parameters passed to a method call:
     /// `parse::<u64>()`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct MethodTurbofish {
         pub colon2_token: Token![::],
         pub lt_token: Token![<],
@@ -1099,7 +1099,7 @@ ast_struct! {
 ast_enum! {
     /// An individual generic argument to a method, like `T`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub enum GenericMethodArgument {
         /// A type argument.
         Type(Type),
@@ -1115,7 +1115,7 @@ ast_enum! {
 ast_struct! {
     /// A field-value pair in a struct literal.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct FieldValue {
         /// Attributes tagged on the field.
         pub attrs: Vec<Attribute>,
@@ -1136,7 +1136,7 @@ ast_struct! {
 ast_struct! {
     /// A lifetime labeling a `for`, `while`, or `loop`.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct Label {
         pub name: Lifetime,
         pub colon_token: Token![:],
@@ -1163,7 +1163,7 @@ ast_struct! {
     /// # }
     /// ```
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     pub struct Arm {
         pub attrs: Vec<Attribute>,
         pub pat: Pat,
@@ -1178,7 +1178,7 @@ ast_struct! {
 ast_enum! {
     /// Limit types of a range, inclusive or exclusive.
     ///
-    /// *This type is available if Syn is built with the `"full"` feature.*
+    /// *This type is available only if Syn is built with the `"full"` feature.*
     #[cfg_attr(feature = "clone-impls", derive(Copy))]
     pub enum RangeLimits {
         /// Inclusive at the beginning, exclusive at the end.
@@ -1191,7 +1191,7 @@ ast_enum! {
 #[cfg(any(feature = "parsing", feature = "printing"))]
 #[cfg(feature = "full")]
 pub(crate) fn requires_terminator(expr: &Expr) -> bool {
-    // see https://github.com/rust-lang/rust/blob/eb8f2586e/src/libsyntax/parse/classify.rs#L17-L37
+    // see https://github.com/rust-lang/rust/blob/2679c38fc/src/librustc_ast/util/classify.rs#L7-L25
     match *expr {
         Expr::Unsafe(..)
         | Expr::Block(..)
@@ -1545,10 +1545,6 @@ pub(crate) mod parsing {
     // <atom> ? ...
     #[cfg(feature = "full")]
     fn trailer_expr(input: ParseStream, allow_struct: AllowStruct) -> Result<Expr> {
-        if input.peek(token::Group) {
-            return input.call(expr_group).map(Expr::Group);
-        }
-
         let outer_attrs = input.call(Attribute::parse_outer)?;
 
         let atom = atom_expr(input, allow_struct)?;
@@ -1695,7 +1691,7 @@ pub(crate) mod parsing {
     // interactions, as they are fully contained.
     #[cfg(feature = "full")]
     fn atom_expr(input: ParseStream, allow_struct: AllowStruct) -> Result<Expr> {
-        if input.peek(token::Group) {
+        if input.peek(token::Group) && !input.peek2(Token![::]) {
             input.call(expr_group).map(Expr::Group)
         } else if input.peek(Lit) {
             input.parse().map(Expr::Lit)
@@ -1717,7 +1713,6 @@ pub(crate) mod parsing {
             || input.peek(Token![self])
             || input.peek(Token![Self])
             || input.peek(Token![super])
-            || input.peek(Token![extern])
             || input.peek(Token![crate])
         {
             path_or_macro_or_struct(input, allow_struct)
@@ -1789,7 +1784,6 @@ pub(crate) mod parsing {
             || input.peek(Token![self])
             || input.peek(Token![Self])
             || input.peek(Token![super])
-            || input.peek(Token![extern])
             || input.peek(Token![crate])
         {
             input.parse().map(Expr::Path)
@@ -2000,7 +1994,16 @@ pub(crate) mod parsing {
 
     #[cfg(feature = "full")]
     fn generic_method_argument(input: ParseStream) -> Result<GenericMethodArgument> {
-        // TODO parse const generics as well
+        if input.peek(Lit) {
+            let lit = input.parse()?;
+            return Ok(GenericMethodArgument::Const(Expr::Lit(lit)));
+        }
+
+        if input.peek(token::Brace) {
+            let block = input.call(expr::parsing::expr_block)?;
+            return Ok(GenericMethodArgument::Const(Expr::Block(block)));
+        }
+
         input.parse().map(GenericMethodArgument::Type)
     }
 
@@ -2009,32 +2012,7 @@ pub(crate) mod parsing {
         Ok(ExprLet {
             attrs: Vec::new(),
             let_token: input.parse()?,
-            pat: {
-                let leading_vert: Option<Token![|]> = input.parse()?;
-                let pat: Pat = input.parse()?;
-                if leading_vert.is_some()
-                    || input.peek(Token![|]) && !input.peek(Token![||]) && !input.peek(Token![|=])
-                {
-                    let mut cases = Punctuated::new();
-                    cases.push_value(pat);
-                    while input.peek(Token![|])
-                        && !input.peek(Token![||])
-                        && !input.peek(Token![|=])
-                    {
-                        let punct = input.parse()?;
-                        cases.push_punct(punct);
-                        let pat: Pat = input.parse()?;
-                        cases.push_value(pat);
-                    }
-                    Pat::Or(PatOr {
-                        attrs: Vec::new(),
-                        leading_vert,
-                        cases,
-                    })
-                } else {
-                    pat
-                }
-            },
+            pat: pat::parsing::multi_pat_with_leading_vert(input)?,
             eq_token: input.parse()?,
             expr: Box::new(input.call(expr_no_struct)?),
         })
@@ -2043,8 +2021,9 @@ pub(crate) mod parsing {
     #[cfg(feature = "full")]
     impl Parse for ExprIf {
         fn parse(input: ParseStream) -> Result<Self> {
+            let attrs = input.call(Attribute::parse_outer)?;
             Ok(ExprIf {
-                attrs: Vec::new(),
+                attrs,
                 if_token: input.parse()?,
                 cond: Box::new(input.call(expr_no_struct)?),
                 then_branch: input.parse()?,
@@ -2082,26 +2061,11 @@ pub(crate) mod parsing {
     #[cfg(feature = "full")]
     impl Parse for ExprForLoop {
         fn parse(input: ParseStream) -> Result<Self> {
+            let outer_attrs = input.call(Attribute::parse_outer)?;
             let label: Option<Label> = input.parse()?;
             let for_token: Token![for] = input.parse()?;
 
-            let leading_vert: Option<Token![|]> = input.parse()?;
-            let mut pat: Pat = input.parse()?;
-            if leading_vert.is_some() || input.peek(Token![|]) {
-                let mut cases = Punctuated::new();
-                cases.push_value(pat);
-                while input.peek(Token![|]) {
-                    let punct = input.parse()?;
-                    cases.push_punct(punct);
-                    let pat: Pat = input.parse()?;
-                    cases.push_value(pat);
-                }
-                pat = Pat::Or(PatOr {
-                    attrs: Vec::new(),
-                    leading_vert,
-                    cases,
-                });
-            }
+            let pat = pat::parsing::multi_pat_with_leading_vert(input)?;
 
             let in_token: Token![in] = input.parse()?;
             let expr: Expr = input.call(expr_no_struct)?;
@@ -2112,7 +2076,7 @@ pub(crate) mod parsing {
             let stmts = content.call(Block::parse_within)?;
 
             Ok(ExprForLoop {
-                attrs: inner_attrs,
+                attrs: private::attrs(outer_attrs, inner_attrs),
                 label,
                 for_token,
                 pat,
@@ -2126,6 +2090,7 @@ pub(crate) mod parsing {
     #[cfg(feature = "full")]
     impl Parse for ExprLoop {
         fn parse(input: ParseStream) -> Result<Self> {
+            let outer_attrs = input.call(Attribute::parse_outer)?;
             let label: Option<Label> = input.parse()?;
             let loop_token: Token![loop] = input.parse()?;
 
@@ -2135,7 +2100,7 @@ pub(crate) mod parsing {
             let stmts = content.call(Block::parse_within)?;
 
             Ok(ExprLoop {
-                attrs: inner_attrs,
+                attrs: private::attrs(outer_attrs, inner_attrs),
                 label,
                 loop_token,
                 body: Block { brace_token, stmts },
@@ -2146,6 +2111,7 @@ pub(crate) mod parsing {
     #[cfg(feature = "full")]
     impl Parse for ExprMatch {
         fn parse(input: ParseStream) -> Result<Self> {
+            let outer_attrs = input.call(Attribute::parse_outer)?;
             let match_token: Token![match] = input.parse()?;
             let expr = expr_no_struct(input)?;
 
@@ -2159,7 +2125,7 @@ pub(crate) mod parsing {
             }
 
             Ok(ExprMatch {
-                attrs: inner_attrs,
+                attrs: private::attrs(outer_attrs, inner_attrs),
                 match_token,
                 expr: Box::new(expr),
                 brace_token,
@@ -2354,6 +2320,7 @@ pub(crate) mod parsing {
     #[cfg(feature = "full")]
     impl Parse for ExprWhile {
         fn parse(input: ParseStream) -> Result<Self> {
+            let outer_attrs = input.call(Attribute::parse_outer)?;
             let label: Option<Label> = input.parse()?;
             let while_token: Token![while] = input.parse()?;
             let cond = expr_no_struct(input)?;
@@ -2364,7 +2331,7 @@ pub(crate) mod parsing {
             let stmts = content.call(Block::parse_within)?;
 
             Ok(ExprWhile {
-                attrs: inner_attrs,
+                attrs: private::attrs(outer_attrs, inner_attrs),
                 label,
                 while_token,
                 cond: Box::new(cond),
@@ -2499,7 +2466,7 @@ pub(crate) mod parsing {
             }
 
             fields.push(content.parse()?);
-            if !content.peek(Token![,]) {
+            if content.is_empty() {
                 break;
             }
             let punct: Token![,] = content.parse()?;
@@ -2617,27 +2584,7 @@ pub(crate) mod parsing {
             let requires_comma;
             Ok(Arm {
                 attrs: input.call(Attribute::parse_outer)?,
-                pat: {
-                    let leading_vert: Option<Token![|]> = input.parse()?;
-                    let pat: Pat = input.parse()?;
-                    if leading_vert.is_some() || input.peek(Token![|]) {
-                        let mut cases = Punctuated::new();
-                        cases.push_value(pat);
-                        while input.peek(Token![|]) {
-                            let punct = input.parse()?;
-                            cases.push_punct(punct);
-                            let pat: Pat = input.parse()?;
-                            cases.push_value(pat);
-                        }
-                        Pat::Or(PatOr {
-                            attrs: Vec::new(),
-                            leading_vert,
-                            cases,
-                        })
-                    } else {
-                        pat
-                    }
-                },
+                pat: pat::parsing::multi_pat_with_leading_vert(input)?,
                 guard: {
                     if input.peek(Token![if]) {
                         let if_token: Token![if] = input.parse()?;
