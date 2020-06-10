@@ -184,7 +184,7 @@
 //!
 //! ---
 //!
-//! *This module is available if Syn is built with the `"parsing"` feature.*
+//! *This module is available only if Syn is built with the `"parsing"` feature.*
 
 #[path = "discouraged.rs"]
 pub mod discouraged;
@@ -266,10 +266,10 @@ pub struct ParseBuffer<'a> {
 
 impl<'a> Drop for ParseBuffer<'a> {
     fn drop(&mut self) {
-        if !self.is_empty() {
+        if let Some(unexpected_span) = span_of_unexpected_ignoring_nones(self.cursor()) {
             let (inner, old_span) = inner_unexpected(self);
             if old_span.is_none() {
-                inner.set(Unexpected::Some(self.cursor().span()));
+                inner.set(Unexpected::Some(unexpected_span));
             }
         }
     }
@@ -423,6 +423,23 @@ fn inner_unexpected(buffer: &ParseBuffer) -> (Rc<Cell<Unexpected>>, Option<Span>
 
 pub(crate) fn get_unexpected(buffer: &ParseBuffer) -> Rc<Cell<Unexpected>> {
     cell_clone(&buffer.unexpected).unwrap()
+}
+
+fn span_of_unexpected_ignoring_nones(mut cursor: Cursor) -> Option<Span> {
+    if cursor.eof() {
+        return None;
+    }
+    while let Some((inner, _span, rest)) = cursor.group(Delimiter::None) {
+        if let Some(unexpected) = span_of_unexpected_ignoring_nones(inner) {
+            return Some(unexpected);
+        }
+        cursor = rest;
+    }
+    if cursor.eof() {
+        None
+    } else {
+        Some(cursor.span())
+    }
 }
 
 impl<'a> ParseBuffer<'a> {
@@ -1077,7 +1094,7 @@ impl Parse for Literal {
 ///
 /// [module documentation]: self
 ///
-/// *This trait is available if Syn is built with the `"parsing"` feature.*
+/// *This trait is available only if Syn is built with the `"parsing"` feature.*
 pub trait Parser: Sized {
     type Output;
 
@@ -1092,7 +1109,7 @@ pub trait Parser: Sized {
     /// This function will check that the input is fully parsed. If there are
     /// any unparsed tokens at the end of the stream, an error is returned.
     ///
-    /// *This method is available if Syn is built with both the `"parsing"` and
+    /// *This method is available only if Syn is built with both the `"parsing"` and
     /// `"proc-macro"` features.*
     #[cfg(all(
         not(all(target_arch = "wasm32", any(target_os = "unknown", target_os = "wasi"))),
@@ -1117,6 +1134,7 @@ pub trait Parser: Sized {
 
     // Not public API.
     #[doc(hidden)]
+    #[cfg(any(feature = "full", feature = "derive"))]
     fn __parse_scoped(self, scope: Span, tokens: TokenStream) -> Result<Self::Output> {
         let _ = scope;
         self.parse2(tokens)
@@ -1124,6 +1142,7 @@ pub trait Parser: Sized {
 
     // Not public API.
     #[doc(hidden)]
+    #[cfg(any(feature = "full", feature = "derive"))]
     fn __parse_stream(self, input: ParseStream) -> Result<Self::Output> {
         input.parse().and_then(|tokens| self.parse2(tokens))
     }
@@ -1147,14 +1166,15 @@ where
         let state = tokens_to_parse_buffer(&buf);
         let node = self(&state)?;
         state.check_unexpected()?;
-        if state.is_empty() {
-            Ok(node)
+        if let Some(unexpected_span) = span_of_unexpected_ignoring_nones(state.cursor()) {
+            Err(Error::new(unexpected_span, "unexpected token"))
         } else {
-            Err(state.error("unexpected token"))
+            Ok(node)
         }
     }
 
     #[doc(hidden)]
+    #[cfg(any(feature = "full", feature = "derive"))]
     fn __parse_scoped(self, scope: Span, tokens: TokenStream) -> Result<Self::Output> {
         let buf = TokenBuffer::new2(tokens);
         let cursor = buf.begin();
@@ -1162,23 +1182,26 @@ where
         let state = new_parse_buffer(scope, cursor, unexpected);
         let node = self(&state)?;
         state.check_unexpected()?;
-        if state.is_empty() {
-            Ok(node)
+        if let Some(unexpected_span) = span_of_unexpected_ignoring_nones(state.cursor()) {
+            Err(Error::new(unexpected_span, "unexpected token"))
         } else {
-            Err(state.error("unexpected token"))
+            Ok(node)
         }
     }
 
     #[doc(hidden)]
+    #[cfg(any(feature = "full", feature = "derive"))]
     fn __parse_stream(self, input: ParseStream) -> Result<Self::Output> {
         self(input)
     }
 }
 
+#[cfg(any(feature = "full", feature = "derive"))]
 pub(crate) fn parse_scoped<F: Parser>(f: F, scope: Span, tokens: TokenStream) -> Result<F::Output> {
     f.__parse_scoped(scope, tokens)
 }
 
+#[cfg(any(feature = "full", feature = "derive"))]
 pub(crate) fn parse_stream<F: Parser>(f: F, input: ParseStream) -> Result<F::Output> {
     f.__parse_stream(input)
 }
