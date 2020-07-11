@@ -70,8 +70,8 @@
 //! ```
 //!
 //! ```
-//! extern crate proc_macro;
-//!
+//! # extern crate proc_macro;
+//! #
 //! use proc_macro::TokenStream;
 //! use quote::quote;
 //! use syn::{parse_macro_input, DeriveInput};
@@ -250,7 +250,7 @@
 //!   dynamic library libproc_macro from rustc toolchain.
 
 // Syn types in rustdoc of other crates get linked to here.
-#![doc(html_root_url = "https://docs.rs/syn/1.0.30")]
+#![doc(html_root_url = "https://docs.rs/syn/1.0.33")]
 #![deny(clippy::all, clippy::pedantic)]
 // Ignored clippy lints.
 #![allow(
@@ -820,8 +820,8 @@ pub use crate::error::{Error, Result};
 /// # Examples
 ///
 /// ```
-/// extern crate proc_macro;
-///
+/// # extern crate proc_macro;
+/// #
 /// use proc_macro::TokenStream;
 /// use quote::quote;
 /// use syn::DeriveInput;
