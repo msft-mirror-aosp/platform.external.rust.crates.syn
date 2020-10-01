@@ -250,7 +250,7 @@
 //!   dynamic library libproc_macro from rustc toolchain.
 
 // Syn types in rustdoc of other crates get linked to here.
-#![doc(html_root_url = "https://docs.rs/syn/1.0.33")]
+#![doc(html_root_url = "https://docs.rs/syn/1.0.40")]
 #![deny(clippy::all, clippy::pedantic)]
 // Ignored clippy lints.
 #![allow(
@@ -261,6 +261,7 @@
     clippy::inherent_to_string,
     clippy::large_enum_variant,
     clippy::manual_non_exhaustive,
+    clippy::match_like_matches_macro,
     clippy::match_on_vec_items,
     clippy::needless_doctest_main,
     clippy::needless_pass_by_value,
@@ -273,13 +274,16 @@
 // Ignored clippy_pedantic lints.
 #![allow(
     clippy::cast_possible_truncation,
+    clippy::default_trait_access,
     clippy::empty_enum,
+    clippy::expl_impl_clone_on_copy,
     clippy::if_not_else,
     clippy::items_after_statements,
     clippy::match_same_arms,
     clippy::missing_errors_doc,
     clippy::module_name_repetitions,
     clippy::must_use_candidate,
+    clippy::option_if_let_else,
     clippy::shadow_unrelated,
     clippy::similar_names,
     clippy::single_match_else,
@@ -453,6 +457,9 @@ pub mod parse_macro_input;
 
 #[cfg(all(feature = "parsing", feature = "printing"))]
 pub mod spanned;
+
+#[cfg(all(feature = "parsing", feature = "full"))]
+mod whitespace;
 
 mod gen {
     /// Syntax tree traversal to walk a shared borrow of a syntax tree.
@@ -757,6 +764,22 @@ mod gen {
     #[rustfmt::skip]
     pub mod fold;
 
+    #[cfg(feature = "clone-impls")]
+    #[rustfmt::skip]
+    mod clone;
+
+    #[cfg(feature = "extra-traits")]
+    #[rustfmt::skip]
+    mod eq;
+
+    #[cfg(feature = "extra-traits")]
+    #[rustfmt::skip]
+    mod hash;
+
+    #[cfg(feature = "extra-traits")]
+    #[rustfmt::skip]
+    mod debug;
+
     #[cfg(any(feature = "full", feature = "derive"))]
     #[path = "../gen_helper.rs"]
     mod helper;
@@ -778,6 +801,9 @@ mod lookahead;
 
 #[cfg(feature = "parsing")]
 pub mod parse;
+
+#[cfg(feature = "full")]
+mod reserved;
 
 #[cfg(all(any(feature = "full", feature = "derive"), feature = "parsing"))]
 mod verbatim;
@@ -941,13 +967,16 @@ pub fn parse_file(mut content: &str) -> Result<File> {
     }
 
     let mut shebang = None;
-    if content.starts_with("#!") && !content.starts_with("#![") {
-        if let Some(idx) = content.find('\n') {
-            shebang = Some(content[..idx].to_string());
-            content = &content[idx..];
-        } else {
-            shebang = Some(content.to_string());
-            content = "";
+    if content.starts_with("#!") {
+        let rest = whitespace::skip(&content[2..]);
+        if !rest.starts_with('[') {
+            if let Some(idx) = content.find('\n') {
+                shebang = Some(content[..idx].to_string());
+                content = &content[idx..];
+            } else {
+                shebang = Some(content.to_string());
+                content = "";
+            }
         }
     }
 

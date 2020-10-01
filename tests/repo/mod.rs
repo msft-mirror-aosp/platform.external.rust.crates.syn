@@ -8,23 +8,27 @@ use std::path::Path;
 use tar::Archive;
 use walkdir::DirEntry;
 
-const REVISION: &str = "46e85b4328fe18492894093c1092dfe509df4370";
+const REVISION: &str = "792c645ca7d11a8d254df307d019c5bf01445c37";
 
 #[rustfmt::skip]
 static EXCLUDE: &[&str] = &[
+    // Compile-fail expr parameter in const generic position: f::<1 + 2>()
+    "test/ui/const-generics/const-expression-parameter.rs",
+
     // Deprecated anonymous parameter syntax in traits
     "test/ui/issues/issue-13105.rs",
     "test/ui/issues/issue-13775.rs",
     "test/ui/issues/issue-34074.rs",
     "test/ui/proc-macro/trait-fn-args-2015.rs",
 
-    // not actually test cases
+    // Not actually test cases
     "test/rustdoc-ui/test-compile-fail2.rs",
     "test/rustdoc-ui/test-compile-fail3.rs",
     "test/ui/include-single-expr-helper.rs",
     "test/ui/include-single-expr-helper-1.rs",
     "test/ui/issues/auxiliary/issue-21146-inc.rs",
     "test/ui/json-bom-plus-crlf-multifile-aux.rs",
+    "test/ui/lint/expansion-time-include.rs",
     "test/ui/macros/auxiliary/macro-comma-support.rs",
     "test/ui/macros/auxiliary/macro-include-items-expr.rs",
 ];
@@ -42,8 +46,13 @@ pub fn base_dir_filter(entry: &DirEntry) -> bool {
     if cfg!(windows) {
         path_string = path_string.replace('\\', "/").into();
     }
-    assert!(path_string.starts_with("tests/rust/src/"));
-    let path = &path_string["tests/rust/src/".len()..];
+    let path = if let Some(path) = path_string.strip_prefix("tests/rust/src/") {
+        path
+    } else if let Some(path) = path_string.strip_prefix("tests/rust/library/") {
+        path
+    } else {
+        panic!("unexpected path in Rust dist: {}", path_string);
+    };
 
     // TODO assert that parsing fails on the parse-fail cases
     if path.starts_with("test/parse-fail")
