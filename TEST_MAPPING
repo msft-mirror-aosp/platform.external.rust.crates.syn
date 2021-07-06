@@ -326,7 +326,7 @@
       "name": "url_device_test_tests_unit"
     },
     {
-      "name": "vpnprofilestore_test"
+      "name": "legacykeystore_test"
     }
   ]
 }
