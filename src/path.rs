@@ -292,18 +292,6 @@ pub mod parsing {
             return Ok(Expr::Lit(lit));
         }
 
-        #[cfg(feature = "full")]
-        {
-            if input.peek(Ident) {
-                let ident: Ident = input.parse()?;
-                return Ok(Expr::Path(ExprPath {
-                    attrs: Vec::new(),
-                    qself: None,
-                    path: Path::from(ident),
-                }));
-            }
-        }
-
         if input.peek(token::Brace) {
             #[cfg(feature = "full")]
             {
