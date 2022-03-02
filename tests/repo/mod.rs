@@ -1,3 +1,5 @@
+#![allow(clippy::manual_assert)]
+
 mod progress;
 
 use self::progress::Progress;
@@ -8,23 +10,13 @@ use std::path::Path;
 use tar::Archive;
 use walkdir::DirEntry;
 
-const REVISION: &str = "50171c310cd15e1b2d3723766ce64e2e4d6696fc";
+const REVISION: &str = "5e57faa78aa7661c6000204591558f6665f11abc";
 
 #[rustfmt::skip]
 static EXCLUDE: &[&str] = &[
-    // TODO: anonymous structs/unions
-    // type A = struct { field: u8 };
-    // https://github.com/dtolnay/syn/issues/1049
-    "src/test/pretty/anonymous-types.rs",
-
     // TODO: impl ~const T {}
     // https://github.com/dtolnay/syn/issues/1051
     "src/test/ui/rfc-2632-const-trait-impl/syntax.rs",
-
-    // TODO: ~const in where-clause
-    // https://github.com/dtolnay/syn/issues/1051
-    "src/test/ui/rfc-2632-const-trait-impl/trait-where-clause-run.rs",
-    "src/test/ui/rfc-2632-const-trait-impl/trait-where-clause-self-referential.rs",
 
     // Compile-fail expr parameter in const generic position: f::<1 + 2>()
     "src/test/ui/const-generics/early/closing-args-token.rs",
@@ -54,16 +46,31 @@ static EXCLUDE: &[&str] = &[
     "src/tools/rustfmt/tests/target/configs/spaces_around_ranges/true.rs",
     "src/tools/rustfmt/tests/target/type.rs",
 
+    // Clippy lint lists represented as expressions
+    "src/tools/clippy/clippy_lints/src/lib.deprecated.rs",
+    "src/tools/clippy/clippy_lints/src/lib.register_all.rs",
+    "src/tools/clippy/clippy_lints/src/lib.register_cargo.rs",
+    "src/tools/clippy/clippy_lints/src/lib.register_complexity.rs",
+    "src/tools/clippy/clippy_lints/src/lib.register_correctness.rs",
+    "src/tools/clippy/clippy_lints/src/lib.register_internal.rs",
+    "src/tools/clippy/clippy_lints/src/lib.register_lints.rs",
+    "src/tools/clippy/clippy_lints/src/lib.register_nursery.rs",
+    "src/tools/clippy/clippy_lints/src/lib.register_pedantic.rs",
+    "src/tools/clippy/clippy_lints/src/lib.register_perf.rs",
+    "src/tools/clippy/clippy_lints/src/lib.register_restriction.rs",
+    "src/tools/clippy/clippy_lints/src/lib.register_style.rs",
+    "src/tools/clippy/clippy_lints/src/lib.register_suspicious.rs",
+
     // Not actually test cases
     "src/test/rustdoc-ui/test-compile-fail2.rs",
     "src/test/rustdoc-ui/test-compile-fail3.rs",
-    "src/test/ui/include-single-expr-helper.rs",
-    "src/test/ui/include-single-expr-helper-1.rs",
     "src/test/ui/json-bom-plus-crlf-multifile-aux.rs",
     "src/test/ui/lint/expansion-time-include.rs",
     "src/test/ui/macros/auxiliary/macro-comma-support.rs",
     "src/test/ui/macros/auxiliary/macro-include-items-expr.rs",
-    "src/test/ui/parser/auxiliary/issue-21146-inc.rs",
+    "src/test/ui/macros/include-single-expr-helper.rs",
+    "src/test/ui/macros/include-single-expr-helper-1.rs",
+    "src/test/ui/parser/issues/auxiliary/issue-21146-inc.rs",
 ];
 
 pub fn base_dir_filter(entry: &DirEntry) -> bool {
@@ -71,7 +78,7 @@ pub fn base_dir_filter(entry: &DirEntry) -> bool {
     if path.is_dir() {
         return true; // otherwise walkdir does not visit the files
     }
-    if path.extension().map(|e| e != "rs").unwrap_or(true) {
+    if path.extension().map_or(true, |e| e != "rs") {
         return false;
     }
 
