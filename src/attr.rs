@@ -2,7 +2,6 @@ use super::*;
 use crate::punctuated::Punctuated;
 use proc_macro2::TokenStream;
 use std::iter;
-use std::slice;
 
 #[cfg(feature = "parsing")]
 use crate::parse::{Parse, ParseBuffer, ParseStream, Parser, Result};
@@ -251,7 +250,9 @@ impl Attribute {
     #[cfg_attr(doc_cfg, doc(cfg(feature = "parsing")))]
     pub fn parse_inner(input: ParseStream) -> Result<Vec<Self>> {
         let mut attrs = Vec::new();
-        parsing::parse_inner(input, &mut attrs)?;
+        while input.peek(Token![#]) && input.peek2(Token![!]) {
+            attrs.push(input.call(parsing::single_parse_inner)?);
+        }
         Ok(attrs)
     }
 }
@@ -470,8 +471,11 @@ pub trait FilterAttrs<'a> {
     fn inner(self) -> Self::Ret;
 }
 
-impl<'a> FilterAttrs<'a> for &'a [Attribute] {
-    type Ret = iter::Filter<slice::Iter<'a, Attribute>, fn(&&Attribute) -> bool>;
+impl<'a, T> FilterAttrs<'a> for T
+where
+    T: IntoIterator<Item = &'a Attribute>,
+{
+    type Ret = iter::Filter<T::IntoIter, fn(&&Attribute) -> bool>;
 
     fn outer(self) -> Self::Ret {
         fn is_outer(attr: &&Attribute) -> bool {
@@ -480,7 +484,7 @@ impl<'a> FilterAttrs<'a> for &'a [Attribute] {
                 AttrStyle::Inner(_) => false,
             }
         }
-        self.iter().filter(is_outer)
+        self.into_iter().filter(is_outer)
     }
 
     fn inner(self) -> Self::Ret {
@@ -490,7 +494,7 @@ impl<'a> FilterAttrs<'a> for &'a [Attribute] {
                 AttrStyle::Outer => false,
             }
         }
-        self.iter().filter(is_inner)
+        self.into_iter().filter(is_inner)
     }
 }
 
@@ -499,13 +503,8 @@ pub mod parsing {
     use super::*;
     use crate::ext::IdentExt;
     use crate::parse::{Parse, ParseStream, Result};
-
-    pub fn parse_inner(input: ParseStream, attrs: &mut Vec<Attribute>) -> Result<()> {
-        while input.peek(Token![#]) && input.peek2(Token![!]) {
-            attrs.push(input.call(parsing::single_parse_inner)?);
-        }
-        Ok(())
-    }
+    #[cfg(feature = "full")]
+    use crate::private;
 
     pub fn single_parse_inner(input: ParseStream) -> Result<Attribute> {
         let content;
@@ -527,6 +526,15 @@ pub mod parsing {
             path: content.call(Path::parse_mod_style)?,
             tokens: content.parse()?,
         })
+    }
+
+    #[cfg(feature = "full")]
+    impl private {
+        pub(crate) fn attrs(outer: Vec<Attribute>, inner: Vec<Attribute>) -> Vec<Attribute> {
+            let mut attrs = outer;
+            attrs.extend(inner);
+            attrs
+        }
     }
 
     // Like Path::parse_mod_style but accepts keywords in the path.
@@ -647,7 +655,7 @@ mod printing {
             self.path.to_tokens(tokens);
             self.paren_token.surround(tokens, |tokens| {
                 self.nested.to_tokens(tokens);
-            });
+            })
         }
     }
 
