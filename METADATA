@@ -11,13 +11,13 @@ third_party {
   }
   url {
     type: ARCHIVE
-    value: "https://static.crates.io/crates/syn/syn-1.0.105.crate"
+    value: "https://static.crates.io/crates/syn/syn-1.0.107.crate"
   }
-  version: "1.0.105"
+  version: "1.0.107"
   license_type: NOTICE
   last_upgrade_date {
     year: 2022
     month: 12
-    day: 7
+    day: 22
   }
 }
