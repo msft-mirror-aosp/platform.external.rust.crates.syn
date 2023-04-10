@@ -41,7 +41,7 @@ rust_library_host {
     name: "libsyn",
     crate_name: "syn",
     cargo_env_compat: true,
-    cargo_pkg_version: "1.0.105",
+    cargo_pkg_version: "1.0.107",
     srcs: ["src/lib.rs"],
     edition: "2018",
     features: [
@@ -64,8 +64,6 @@ rust_library_host {
         "libunicode_ident",
     ],
     compile_multilib: "first",
-    apex_available: [
-        "//apex_available:platform",
-        "//apex_available:anyapex",
-    ],
+    product_available: true,
+    vendor_available: true,
 }
