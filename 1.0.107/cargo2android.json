@@ -1,0 +1,6 @@
+{
+  "features": "default,full,visit,visit-mut,extra-traits",
+  "host-first-multilib": true,
+  "run": true,
+  "name-suffix": "_deprecated"
+}

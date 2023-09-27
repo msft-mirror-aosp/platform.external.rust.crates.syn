@@ -41,9 +41,9 @@ rust_library_host {
     name: "libsyn",
     crate_name: "syn",
     cargo_env_compat: true,
-    cargo_pkg_version: "1.0.86",
+    cargo_pkg_version: "2.0.16",
     srcs: ["src/lib.rs"],
-    edition: "2018",
+    edition: "2021",
     features: [
         "clone-impls",
         "default",
@@ -57,11 +57,12 @@ rust_library_host {
         "visit",
         "visit-mut",
     ],
-    cfgs: ["syn_disable_nightly_tests"],
     rustlibs: [
         "libproc_macro2",
         "libquote",
-        "libunicode_xid",
+        "libunicode_ident",
     ],
     compile_multilib: "first",
+    product_available: true,
+    vendor_available: true,
 }
