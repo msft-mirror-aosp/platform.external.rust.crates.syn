@@ -63,6 +63,4 @@ rust_library_host {
         "libunicode_ident",
     ],
     compile_multilib: "first",
-    product_available: true,
-    vendor_available: true,
 }
