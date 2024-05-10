@@ -1,5 +1,4 @@
 {
   "features": "default,full,visit,visit-mut,extra-traits",
-  "host-first-multilib": true,
-  "run": true
+  "patch": "patches/rules.mk.diff"
 }
