@@ -191,7 +191,7 @@ use rustc_ast::ast::WherePredicateKind;
 use rustc_ast::ast::WhereRegionPredicate;
 use rustc_ast::ast::YieldKind;
 use rustc_ast::attr::data_structures::CfgEntry;
-use rustc_ast::token::{self, CommentKind, Delimiter, IdentIsRaw, Lit, Token, TokenKind};
+use rustc_ast::token::{self, CommentKind, Delimiter, IdentKind, Lit, Token, TokenKind};
 use rustc_ast::tokenstream::{
     AttrTokenStream, AttrTokenTree, AttrsTarget, DelimSpacing, DelimSpan, LazyAttrTokenStream,
     Spacing, TokenStream, TokenTree,
@@ -819,7 +819,7 @@ fn doc_comment<'a>(
     match trees.next() {
         Some(TokenTree::Token(
             Token {
-                kind: TokenKind::Ident(symbol, IdentIsRaw::No),
+                kind: TokenKind::Ident(symbol, IdentKind::Normal),
                 span: _,
             },
             _spacing,
