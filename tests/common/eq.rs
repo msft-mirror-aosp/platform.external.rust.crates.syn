@@ -122,7 +122,6 @@ use rustc_ast::ast::ModKind;
 use rustc_ast::ast::ModSpans;
 use rustc_ast::ast::Movability;
 use rustc_ast::ast::MutRestriction;
-use rustc_ast::ast::MutTy;
 use rustc_ast::ast::Mutability;
 use rustc_ast::ast::NodeId;
 use rustc_ast::ast::NormalAttr;
@@ -554,7 +553,6 @@ spanless_eq_struct!(MetaItemLit; symbol suffix kind span);
 spanless_eq_struct!(MethodCall; seg receiver args !span);
 spanless_eq_struct!(ModSpans; !inner_span !inject_use_span);
 spanless_eq_struct!(MutRestriction; kind span);
-spanless_eq_struct!(MutTy; ty mutbl);
 spanless_eq_struct!(NormalAttr; item tokens);
 spanless_eq_struct!(ParenthesizedArgs; span inputs inputs_span output);
 spanless_eq_struct!(Pat; id kind span);
@@ -696,10 +694,10 @@ spanless_eq_enum!(LitKind; Str(0 1) ByteStr(0 1) CStr(0 1) Byte(0) Char(0)
 spanless_eq_enum!(PatKind; Missing Wild Ident(0 1 2) Struct(0 1 2 3)
     TupleStruct(0 1 2) Or(0) Path(0 1) Tuple(0) Deref(0) Ref(0 1 2) Expr(0)
     Range(0 1 2) Slice(0) Rest Never Guard(0 1) Paren(0) MacCall(0) Err(0));
-spanless_eq_enum!(TyKind; Slice(0) Array(0 1) Ptr(0) Ref(0 1) PinnedRef(0 1)
-    FnPtr(0) UnsafeBinder(0) Never Tup(0) Path(0 1) TraitObject(0 1)
-    ImplTrait(0 1) Paren(0) Infer ImplicitSelf MacCall(0) CVarArgs Pat(0 1)
-    FieldOf(0 1 2) View(0 1) GcaMacro(0) Dummy Err(0));
+spanless_eq_enum!(TyKind; Slice(0) Array(0 1) Ptr(0 1) Ref(0 1 2)
+    PinnedRef(0 1 2) FnPtr(0) UnsafeBinder(0) Never Tup(0) Path(0 1)
+    TraitObject(0 1) ImplTrait(0 1) Paren(0) Infer ImplicitSelf MacCall(0)
+    CVarArgs Pat(0 1) FieldOf(0 1 2) View(0 1) GcaMacro(0) Dummy Err(0));
 
 impl SpanlessEq for Ident {
     fn eq(&self, other: &Self) -> bool {
